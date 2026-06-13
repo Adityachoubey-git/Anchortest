@@ -37,3 +37,7 @@ A full-stack application with a React frontend and an Express backend, both buil
    # Create a .env file based on your requirements
    npm run dev
    ```
+4. .env backend
+PORT=
+MONGODB_URI=
+JWT_SECRET=

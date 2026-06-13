@@ -1,8 +1,7 @@
-# Dependencies
+
 node_modules/
 **/node_modules/
 
-# Production / Build outputs
 dist/
 **/dist/
 build/
@@ -10,23 +9,11 @@ build/
 out/
 **/out/
 
-# Environment files (containing secrets)
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-**/.env
-**/.env.local
-**/.env.development.local
-**/.env.test.local
-**/.env.production.local
 
-# Local upload files
 backend/uploads/*
 !backend/uploads/.gitkeep
 
-# IDEs and Editors
 .vscode/
 .idea/
 *.suo
@@ -35,6 +22,5 @@ backend/uploads/*
 *.sln
 *.sw?
 
-# System Files
 .DS_Store
 Thumbs.db

@@ -305,8 +305,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectPost, onRefreshCre
                   <button
                     onClick={(e) => handleLikePost(e, post._id)}
                     className={`flex items-center gap-1 px-2.5 py-1 rounded-full border transition-all ${post.likes?.includes(currentUserId)
-                        ? 'bg-red-50 border-red-200 text-red-500 font-bold'
-                        : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-red-50 hover:border-red-100 hover:text-red-500'
+                      ? 'bg-red-50 border-red-200 text-red-500 font-bold'
+                      : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-red-50 hover:border-red-100 hover:text-red-500'
                       }`}
                   >
                     <Heart className={`w-3.5 h-3.5 ${post.likes?.includes(currentUserId) ? 'fill-red-500 text-red-500' : ''}`} />

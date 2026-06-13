@@ -35,7 +35,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onAuthSuccess }) => {
 
       onAuthSuccess(data.user, data.token);
     } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : 'Something went wrong');
+      setErrorMsg(isLogin ? 'Invalid credentials' : 'Something went wrong');
     } finally {
       setLoading(false);
     }

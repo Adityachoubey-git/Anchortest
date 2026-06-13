@@ -94,8 +94,8 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({ onConfigChanged }) => 
             type="button"
             onClick={() => setProgressionType('ARITHMETIC')}
             className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-lg transition-all ${progressionType === 'ARITHMETIC'
-                ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-orange-500/40 text-orange-400'
-                : 'text-slate-400 hover:text-white'
+              ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-orange-500/40 text-orange-400'
+              : 'text-slate-400 hover:text-white'
               }`}
           >
             <Sliders className="w-3.5 h-3.5" />
@@ -105,8 +105,8 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({ onConfigChanged }) => 
             type="button"
             onClick={() => setProgressionType('CUSTOM_MAP')}
             className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-lg transition-all ${progressionType === 'CUSTOM_MAP'
-                ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-orange-500/40 text-orange-400'
-                : 'text-slate-400 hover:text-white'
+              ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-orange-500/40 text-orange-400'
+              : 'text-slate-400 hover:text-white'
               }`}
           >
             <List className="w-3.5 h-3.5" />

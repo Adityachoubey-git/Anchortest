@@ -17,7 +17,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/anchor-forum';
 
-// Middlewares
+
 app.use(cors({
   origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
   credentials: true,
@@ -27,25 +27,21 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-// Create uploads directory if it doesn't exist
+
 const uploadsDir = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 app.use('/uploads', express.static(uploadsDir));
 
-// Mount API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
-app.use('/api/comments', commentRoutes); // Handles flat comment retrieval, replies, and deletions
-app.use('/api/config', configRoutes);    // Admin configuration routes
+app.use('/api/comments', commentRoutes);
+app.use('/api/config', configRoutes);
 
-// Root Health Check Route
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', message: 'Anchor Forum API is running smoothly.' });
 });
-
-// Seed Initial Credit configuration if missing
 const seedDefaultConfig = async () => {
   try {
     const configCount = await CreditConfigurationModel.countDocuments();
@@ -55,8 +51,8 @@ const seedDefaultConfig = async () => {
         name: 'Default Progression',
         progressionType: 'ARITHMETIC',
         arithmeticConfig: {
-          startValue: 1,       // depth 1 = 1 point
-          commonDifference: 2, // depth 2 = 3, depth 3 = 5
+          startValue: 1,
+          commonDifference: 2,
         },
         customMap: {
           '1': 1,
@@ -73,12 +69,12 @@ const seedDefaultConfig = async () => {
   }
 };
 
-// Connect to Database and start server
+
 mongoose.connect(MONGODB_URI)
   .then(async () => {
     console.log('Successfully connected to MongoDB.');
     await seedDefaultConfig();
-    
+
     app.listen(PORT, () => {
       console.log(`Server is running in development mode on http://localhost:${PORT}`);
     });

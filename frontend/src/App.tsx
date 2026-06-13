@@ -18,7 +18,7 @@ function App() {
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [creditsPopupOpen, setCreditsPopupOpen] = useState(false);
 
-  // Check login status on mount
+
   const checkAuth = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -103,30 +103,30 @@ function App() {
     <div className="min-h-screen bg-slate-100 flex flex-col">
       {user ? (
         <>
-          <Navbar 
-            userName={user.name} 
-            totalCredits={user.totalCredits} 
-            onLogout={handleLogout} 
+          <Navbar
+            userName={user.name}
+            totalCredits={user.totalCredits}
+            onLogout={handleLogout}
             onNavigateHome={() => setSelectedPostId(null)}
             onOpenCreditsPopup={() => setCreditsPopupOpen(true)}
           />
           <main className="flex-1 max-w-7xl w-full mx-auto px-4 md:px-6 py-8">
             {selectedPostId ? (
-              <PostDetails 
-                postId={selectedPostId} 
-                currentUserId={user.id} 
+              <PostDetails
+                postId={selectedPostId}
+                currentUserId={user.id}
                 onBack={() => setSelectedPostId(null)}
                 onRefreshCredits={refreshUserCredits}
               />
             ) : (
-              <Dashboard 
-                onSelectPost={(id) => setSelectedPostId(id)} 
+              <Dashboard
+                onSelectPost={(id) => setSelectedPostId(id)}
                 onRefreshCredits={refreshUserCredits}
                 currentUserId={user.id}
               />
             )}
           </main>
-          <CreditsPopup 
+          <CreditsPopup
             isOpen={creditsPopupOpen}
             onClose={() => setCreditsPopupOpen(false)}
             totalCredits={user.totalCredits}

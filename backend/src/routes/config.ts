@@ -3,23 +3,23 @@ import { CreditConfigurationModel } from '../models/CreditConfiguration';
 
 const router = Router();
 
-// GET ACTIVE CONFIG
+
 router.get('/', async (req: Request, res: Response) => {
   try {
     let config = await CreditConfigurationModel.findOne({ isActive: true });
-    
-    // If no active config exists, let's look for any config, or return a default template
+
+
     if (!config) {
       config = await CreditConfigurationModel.findOne();
     }
-    
+
     return res.status(200).json({ config });
   } catch (error: any) {
     return res.status(500).json({ error: error.message });
   }
 });
 
-// CREATE/UPDATE CONFIG & SET ACTIVE
+
 router.post('/', async (req: Request, res: Response) => {
   try {
     const { name, progressionType, startValue, commonDifference, customMap } = req.body;
@@ -28,9 +28,9 @@ router.post('/', async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Configuration name is required' });
     }
 
-    // Let's find by name to update, or create new
+
     let config = await CreditConfigurationModel.findOne({ name });
-    
+
     if (config) {
       config.progressionType = progressionType || config.progressionType;
       if (progressionType === 'ARITHMETIC') {
@@ -57,7 +57,7 @@ router.post('/', async (req: Request, res: Response) => {
       await config.save();
     }
 
-    // Ensure all other configurations are marked inactive
+
     await CreditConfigurationModel.updateMany(
       { _id: { $ne: config._id } },
       { $set: { isActive: false } }

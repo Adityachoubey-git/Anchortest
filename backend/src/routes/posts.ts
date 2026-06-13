@@ -8,7 +8,7 @@ import { authenticateToken, AuthRequest } from '../middleware/auth';
 
 const router = Router();
 
-// Configure Multer Storage
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const dir = path.join(__dirname, '../../uploads');
@@ -23,7 +23,6 @@ const storage = multer.diskStorage({
   }
 });
 
-// Configure Multer Upload
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
@@ -37,7 +36,7 @@ const upload = multer({
   }
 });
 
-// CREATE POST WITH OPTIONAL MEDIA UPLOADS
+
 router.post('/', authenticateToken, upload.fields([
   { name: 'image', maxCount: 1 },
   { name: 'video', maxCount: 1 }
@@ -69,7 +68,7 @@ router.post('/', authenticateToken, upload.fields([
   }
 });
 
-// GET FEED (NEWEST FIRST)
+
 router.get('/', async (req, res) => {
   try {
     const posts = await PostModel.find()
@@ -81,7 +80,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET SINGLE POST BY ID
+
 router.get('/:id', async (req, res) => {
   try {
     const post = await PostModel.findById(req.params.id)
@@ -97,7 +96,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// UPDATE POST (EDIT)
+
 router.put('/:id', authenticateToken, upload.fields([
   { name: 'image', maxCount: 1 },
   { name: 'video', maxCount: 1 }
@@ -113,7 +112,7 @@ router.put('/:id', authenticateToken, upload.fields([
       return res.status(404).json({ error: 'Post not found' });
     }
 
-    // Check ownership
+
     if (post.author.toString() !== req.user.id) {
       return res.status(403).json({ error: 'Forbidden' });
     }
@@ -123,7 +122,7 @@ router.put('/:id', authenticateToken, upload.fields([
 
     const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
 
-    // Handle image update/delete
+
     if (removeImage === 'true' || removeImage === true) {
       if (post.imageUrl) {
         const oldPath = path.join(__dirname, '../../', post.imageUrl);
@@ -138,7 +137,7 @@ router.put('/:id', authenticateToken, upload.fields([
       post.imageUrl = `/uploads/${files['image'][0].filename}`;
     }
 
-    // Handle video update/delete
+
     if (removeVideo === 'true' || removeVideo === true) {
       if (post.videoUrl) {
         const oldPath = path.join(__dirname, '../../', post.videoUrl);
@@ -160,7 +159,6 @@ router.put('/:id', authenticateToken, upload.fields([
   }
 });
 
-// DELETE POST
 router.delete('/:id', authenticateToken, async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
@@ -171,12 +169,12 @@ router.delete('/:id', authenticateToken, async (req: AuthRequest, res: Response)
       return res.status(404).json({ error: 'Post not found' });
     }
 
-    // Check ownership
+
     if (post.author.toString() !== req.user.id) {
       return res.status(403).json({ error: 'Forbidden' });
     }
 
-    // Delete uploaded files
+
     if (post.imageUrl) {
       const imgPath = path.join(__dirname, '../../', post.imageUrl);
       if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
@@ -186,10 +184,10 @@ router.delete('/:id', authenticateToken, async (req: AuthRequest, res: Response)
       if (fs.existsSync(vidPath)) fs.unlinkSync(vidPath);
     }
 
-    // Delete comments under this post
+
     await CommentModel.deleteMany({ post: id });
 
-    // Delete the post
+
     await PostModel.deleteOne({ _id: id });
 
     return res.status(200).json({ message: 'Post and comments deleted successfully' });
@@ -198,7 +196,7 @@ router.delete('/:id', authenticateToken, async (req: AuthRequest, res: Response)
   }
 });
 
-// LIKE/UNLIKE POST
+
 router.post('/:id/like', authenticateToken, async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
@@ -211,12 +209,12 @@ router.post('/:id/like', authenticateToken, async (req: AuthRequest, res: Respon
 
     const userId = req.user.id;
     const likeIndex = post.likes.indexOf(userId as any);
-    
+
     if (likeIndex > -1) {
-      // Unlike
+
       post.likes.splice(likeIndex, 1);
     } else {
-      // Like
+
       post.likes.push(userId as any);
     }
 

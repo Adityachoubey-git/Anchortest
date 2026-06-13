@@ -16,11 +16,11 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({ onConfigChanged }) => 
     '4': 7,
     '5': 9,
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
 
-  // Fetch active config on mount
+
   useEffect(() => {
     fetch('/api/config')
       .then((res) => res.json())
@@ -32,7 +32,7 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({ onConfigChanged }) => 
             setCommonDifference(data.config.arithmeticConfig.commonDifference);
           }
           if (data.config.customMap) {
-            // Mongoose Map is serialized as an object
+
             setCustomMap(data.config.customMap);
           }
         }
@@ -88,16 +88,15 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({ onConfigChanged }) => 
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Toggle progression type */}
+
         <div className="flex gap-2 p-1 rounded-xl bg-slate-950 border border-slate-900">
           <button
             type="button"
             onClick={() => setProgressionType('ARITHMETIC')}
-            className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-lg transition-all ${
-              progressionType === 'ARITHMETIC'
+            className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-lg transition-all ${progressionType === 'ARITHMETIC'
                 ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-orange-500/40 text-orange-400'
                 : 'text-slate-400 hover:text-white'
-            }`}
+              }`}
           >
             <Sliders className="w-3.5 h-3.5" />
             Arithmetic Progression
@@ -105,18 +104,17 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({ onConfigChanged }) => 
           <button
             type="button"
             onClick={() => setProgressionType('CUSTOM_MAP')}
-            className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-lg transition-all ${
-              progressionType === 'CUSTOM_MAP'
+            className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-lg transition-all ${progressionType === 'CUSTOM_MAP'
                 ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-orange-500/40 text-orange-400'
                 : 'text-slate-400 hover:text-white'
-            }`}
+              }`}
           >
             <List className="w-3.5 h-3.5" />
             Custom Depth Map
           </button>
         </div>
 
-        {/* Arithmetic Settings */}
+
         {progressionType === 'ARITHMETIC' && (
           <div className="space-y-4 p-4 rounded-xl bg-slate-950/40 border border-slate-900">
             <div className="grid grid-cols-2 gap-4">
@@ -145,24 +143,24 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({ onConfigChanged }) => 
                 />
               </div>
             </div>
-            
+
             <div className="flex gap-2 text-slate-500 text-[11px] leading-relaxed pt-1.5 border-t border-slate-900">
               <HelpCircle className="w-4 h-4 flex-shrink-0 text-slate-600 mt-0.5" />
               <span>
-                Calculates as: <code className="text-orange-400">a + (depth - 1) * d</code>. Currently: 
+                Calculates as: <code className="text-orange-400">a + (depth - 1) * d</code>. Currently:
                 depth 1 = <strong>{startValue}</strong>, depth 2 = <strong>{startValue + commonDifference}</strong>, depth 3 = <strong>{startValue + commonDifference * 2}</strong> credits.
               </span>
             </div>
           </div>
         )}
 
-        {/* Custom Map Settings */}
+
         {progressionType === 'CUSTOM_MAP' && (
           <div className="space-y-4 p-4 rounded-xl bg-slate-950/40 border border-slate-900">
             <div className="text-[11px] text-slate-500 mb-2 leading-relaxed">
               Define explicit credit outputs for individual nested depth tiers.
             </div>
-            
+
             <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1">
               {['1', '2', '3', '4', '5'].map((depth) => (
                 <div key={depth} className="flex items-center justify-between gap-4">
@@ -180,7 +178,7 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({ onConfigChanged }) => 
           </div>
         )}
 
-        {/* Feedback / Save button */}
+
         <div>
           {successMsg && (
             <div className="mb-3 text-xs font-semibold text-emerald-400 bg-emerald-950/20 border border-emerald-900/30 px-3 py-2 rounded-lg text-center transition-all animate-pulse">

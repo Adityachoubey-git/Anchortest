@@ -65,10 +65,10 @@ export const CommentNode: React.FC<CommentNodeProps> = ({
   return (
     <div className="mt-4 flex flex-col w-full">
       <div className="flex gap-3 items-start relative">
-        {/* Left Thread line indicator */}
+
         <div className="w-[2px] bg-slate-200 absolute top-7 bottom-0 left-3" />
 
-        {/* Bullet circle or Toggle */}
+
         <div className="z-10 mt-1">
           {hasChildren ? (
             <button
@@ -84,9 +84,9 @@ export const CommentNode: React.FC<CommentNodeProps> = ({
           )}
         </div>
 
-        {/* Content Box */}
+
         <div className="flex-1 min-w-0">
-          {/* Header Metadata */}
+
           <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-1">
             <span className={`font-semibold ${comment.isDeleted ? 'text-slate-400 italic opacity-60' : 'text-slate-850'}`}>
               {comment.isDeleted ? '[deleted]' : comment.author?.name || 'Anonymous'}
@@ -107,40 +107,36 @@ export const CommentNode: React.FC<CommentNodeProps> = ({
             )}
           </div>
 
-          {/* Comment Body */}
-          <div className={`text-sm p-3 rounded-xl border transition-all ${
-            comment.isDeleted 
-              ? 'bg-slate-100/40 border-slate-200 text-slate-400 italic' 
+          <div className={`text-sm p-3 rounded-xl border transition-all ${comment.isDeleted
+              ? 'bg-slate-100/40 border-slate-200 text-slate-400 italic'
               : 'bg-slate-50 border-slate-200/60 text-slate-800'
-          }`}>
+            }`}>
             <p className="whitespace-pre-line leading-relaxed">
               {comment.isDeleted ? '[This comment has been deleted]' : comment.body}
             </p>
           </div>
 
-          {/* Action buttons */}
+
           <div className="flex gap-4 mt-1.5 px-1">
             <button
               onClick={() => { if (!comment.isDeleted) setIsReplying(!isReplying); }}
-              className={`flex items-center gap-1.5 text-xs font-medium transition-colors ${
-                comment.isDeleted 
-                  ? 'text-slate-300 cursor-not-allowed' 
+              className={`flex items-center gap-1.5 text-xs font-medium transition-colors ${comment.isDeleted
+                  ? 'text-slate-300 cursor-not-allowed'
                   : 'text-slate-500 hover:text-orange-600'
-              }`}
+                }`}
               disabled={comment.isDeleted || loading}
             >
               <MessageSquare className="w-3.5 h-3.5" />
               Reply
             </button>
-            
+
             {(isAuthor || comment.isDeleted) && (
               <button
                 onClick={handleDelete}
-                className={`flex items-center gap-1.5 text-xs font-medium transition-colors ml-auto ${
-                  comment.isDeleted 
-                    ? 'text-slate-300 cursor-not-allowed' 
+                className={`flex items-center gap-1.5 text-xs font-medium transition-colors ml-auto ${comment.isDeleted
+                    ? 'text-slate-300 cursor-not-allowed'
                     : 'text-slate-500 hover:text-red-500'
-                }`}
+                  }`}
                 disabled={comment.isDeleted || loading}
               >
                 <Trash2 className="w-3.5 h-3.5" />
@@ -149,7 +145,6 @@ export const CommentNode: React.FC<CommentNodeProps> = ({
             )}
           </div>
 
-          {/* Inline Reply Input */}
           {isReplying && (
             <div className="mt-3 flex flex-col gap-2 p-3 bg-slate-100/70 rounded-xl border border-slate-200">
               <textarea
@@ -181,7 +176,7 @@ export const CommentNode: React.FC<CommentNodeProps> = ({
         </div>
       </div>
 
-      {/* Recursive Children Replies rendering */}
+
       {!isCollapsed && comment.replies && comment.replies.length > 0 && (
         <div className={`space-y-1 ${comment.depth < maxIndentLevel ? 'ml-6' : 'ml-2 border-l border-slate-200 pl-2'}`}>
           {comment.replies.map((reply) => (

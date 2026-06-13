@@ -77,7 +77,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectPost, onRefreshCre
   };
 
   const handleLikePost = async (e: React.MouseEvent, postId: string) => {
-    e.stopPropagation(); // Stop navigation to details
+    e.stopPropagation();
     try {
       const token = localStorage.getItem('token');
       const headers: HeadersInit = {};
@@ -91,7 +91,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectPost, onRefreshCre
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to like post');
 
-      // Update state locally
+
       setPosts(prev => prev.map(p => p._id === postId ? { ...p, likes: data.likes } : p));
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Error liking post');
@@ -130,7 +130,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectPost, onRefreshCre
       handleRemoveImage();
       handleRemoveVideo();
       fetchPosts();
-      onRefreshCredits(); // Refresh user credit score
+      onRefreshCredits();
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Error creating post');
     } finally {
@@ -140,7 +140,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectPost, onRefreshCre
 
   return (
     <div className="max-w-3xl mx-auto space-y-8">
-      {/* Create Post Card */}
+
       <div className="glass-card rounded-2xl p-6 border-slate-200/90 shadow-md shadow-slate-100 bg-white">
         <h2 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2 tracking-wide border-b border-slate-100 pb-3">
           <Plus className="w-5 h-5 text-orange-500" />
@@ -170,7 +170,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectPost, onRefreshCre
             />
           </div>
 
-          {/* Previews */}
+
           {(imagePreview || videoPreview) && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-3 bg-slate-50 rounded-xl border border-slate-150">
               {imagePreview && (
@@ -200,7 +200,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectPost, onRefreshCre
             </div>
           )}
 
-          {/* Media upload buttons & Submit */}
+
           <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
             <div className="flex gap-2">
               <label className="flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 hover:bg-slate-50 text-slate-600 hover:text-slate-900 text-xs font-semibold rounded-lg cursor-pointer transition select-none">
@@ -241,7 +241,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectPost, onRefreshCre
         </form>
       </div>
 
-      {/* Discussion Feed */}
+
       <div className="space-y-4">
         <h2 className="text-lg font-bold text-slate-950 px-1 tracking-tight">Active Discussions</h2>
 
@@ -266,8 +266,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectPost, onRefreshCre
                   <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
                     {post.body}
                   </p>
-                  
-                  {/* Media Preview in feed */}
+
+
                   {(post.imageUrl || post.videoUrl) && (
                     <div className="flex gap-2.5 pt-1">
                       {post.imageUrl && (
@@ -301,20 +301,19 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectPost, onRefreshCre
                     </span>
                   </div>
 
-                  {/* Like Button */}
+
                   <button
                     onClick={(e) => handleLikePost(e, post._id)}
-                    className={`flex items-center gap-1 px-2.5 py-1 rounded-full border transition-all ${
-                      post.likes?.includes(currentUserId)
+                    className={`flex items-center gap-1 px-2.5 py-1 rounded-full border transition-all ${post.likes?.includes(currentUserId)
                         ? 'bg-red-50 border-red-200 text-red-500 font-bold'
                         : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-red-50 hover:border-red-100 hover:text-red-500'
-                    }`}
+                      }`}
                   >
                     <Heart className={`w-3.5 h-3.5 ${post.likes?.includes(currentUserId) ? 'fill-red-500 text-red-500' : ''}`} />
                     <span>{post.likes?.length || 0}</span>
                   </button>
 
-                  {/* View count visible to OP */}
+
                   {currentUserId && post.author?._id === currentUserId && (
                     <div className="flex items-center gap-1 text-slate-500 font-medium px-2 py-1 bg-slate-50 border border-slate-200 rounded-full">
                       <Eye className="w-3.5 h-3.5" />

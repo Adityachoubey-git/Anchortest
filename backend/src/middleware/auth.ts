@@ -9,7 +9,7 @@ export interface AuthRequest extends Request {
 }
 
 export const authenticateToken = (req: AuthRequest, res: Response, next: NextFunction) => {
-  // Check token in cookies or Authorization header
+
   const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
 
   if (!token) {

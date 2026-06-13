@@ -22,8 +22,6 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
   const [rootCommentText, setRootCommentText] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  // Edit states
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState('');
   const [editBody, setEditBody] = useState('');
@@ -35,21 +33,16 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
   const [removeVideo, setRemoveVideo] = useState(false);
   const [editSubmitting, setEditSubmitting] = useState(false);
 
-  // Rebuild recursive tree from flat list of comments in memory
   const buildTree = useCallback((comments: CommentData[]): CommentData[] => {
     const map: { [key: string]: CommentData & { replies: CommentData[] } } = {};
     const roots: CommentData[] = [];
-
-    // Initialize map
     comments.forEach((c) => {
       map[c._id] = { ...c, replies: [] };
     });
-
-    // Populate replies hierarchy
     comments.forEach((c) => {
       const commentNode = map[c._id];
-      const parentId = (c as any).parentComment; // Grab parent reference
-      
+      const parentId = (c as any).parentComment;
+
       if (!parentId) {
         roots.push(commentNode);
       } else {
@@ -68,7 +61,6 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
   const fetchPostAndComments = useCallback(async () => {
     setLoading(true);
     try {
-      // Fetch Post Details
       const postRes = await fetch(`/api/posts/${postId}`);
       const postData = await postRes.json();
       if (postRes.ok) {
@@ -77,7 +69,6 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
         setEditBody(postData.post.body);
       }
 
-      // Fetch Comments list
       const commentsRes = await fetch(`/api/comments/posts/${postId}/comments`);
       const commentsData = await commentsRes.json();
       if (commentsRes.ok) {
@@ -118,7 +109,7 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
 
       setRootCommentText('');
       fetchPostAndComments();
-      onRefreshCredits(); // Update user's live dashboard credits
+      onRefreshCredits();
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Error submitting comment');
     } finally {
@@ -299,7 +290,6 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      {/* Back Button */}
       <button
         onClick={onBack}
         className="flex items-center gap-2 text-slate-500 hover:text-orange-600 text-sm font-semibold py-1.5 transition select-none group"
@@ -308,17 +298,17 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
         Back to Discussions
       </button>
 
-      {/* Main Post Content or Edit Form */}
+
       {isEditing ? (
         <div className="glass-card rounded-2xl p-6 md:p-8 border-slate-200/90 shadow-lg bg-white">
           <div className="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
             <h3 className="font-extrabold text-slate-900 text-base">Edit Discussion Thread</h3>
-            <button 
+            <button
               onClick={() => {
                 setIsEditing(false);
                 setRemoveImage(false);
                 setRemoveVideo(false);
-              }} 
+              }}
               className="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-50 transition"
             >
               <X className="w-5 h-5" />
@@ -350,12 +340,12 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
               />
             </div>
 
-            {/* Media editing state */}
+
             <div className="space-y-3 p-4 bg-slate-50 rounded-xl border border-slate-200/60">
               <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Media Management</h4>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Image Section */}
+
                 <div className="space-y-2">
                   <span className="block text-xs font-semibold text-slate-500">Image Asset</span>
                   {!removeImage && (editImagePreview || post.imageUrl) ? (
@@ -377,18 +367,18 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
                     <label className="flex flex-col items-center justify-center border-2 border-dashed border-slate-300 rounded-lg h-32 cursor-pointer hover:bg-white hover:border-orange-500/55 transition select-none bg-slate-100/30">
                       <ImageIcon className="w-5 h-5 text-slate-400 mb-1" />
                       <span className="text-[11px] font-semibold text-slate-500">Upload new image</span>
-                      <input 
+                      <input
                         key={editImageFile ? 'edit-image-selected' : 'edit-image-empty'}
-                        type="file" 
-                        accept="image/*" 
-                        className="hidden" 
-                        onChange={handleEditImageChange} 
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleEditImageChange}
                       />
                     </label>
                   )}
                 </div>
 
-                {/* Video Section */}
+
                 <div className="space-y-2">
                   <span className="block text-xs font-semibold text-slate-500">Video Asset</span>
                   {!removeVideo && (editVideoPreview || post.videoUrl) ? (
@@ -410,12 +400,12 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
                     <label className="flex flex-col items-center justify-center border-2 border-dashed border-slate-300 rounded-lg h-32 cursor-pointer hover:bg-white hover:border-orange-500/55 transition select-none bg-slate-100/30">
                       <VideoIcon className="w-5 h-5 text-slate-400 mb-1" />
                       <span className="text-[11px] font-semibold text-slate-500">Upload new video</span>
-                      <input 
+                      <input
                         key={editVideoFile ? 'edit-video-selected' : 'edit-video-empty'}
-                        type="file" 
-                        accept="video/*" 
-                        className="hidden" 
-                        onChange={handleEditVideoChange} 
+                        type="file"
+                        accept="video/*"
+                        className="hidden"
+                        onChange={handleEditVideoChange}
                       />
                     </label>
                   )}
@@ -453,8 +443,8 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
             <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight flex-1">
               {post.title}
             </h1>
-            
-            {/* Edit / Delete Buttons */}
+
+
             {isAuthor && (
               <div className="flex gap-2 flex-shrink-0">
                 <button
@@ -474,7 +464,7 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
               </div>
             )}
           </div>
-          
+
           <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mb-6 pb-4 border-b border-slate-100">
             <div className="flex items-center gap-1">
               <User className="w-3.5 h-3.5 text-slate-450" />
@@ -487,20 +477,18 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
               OP ({post.author?.totalCredits} Credits)
             </span>
 
-            {/* Like button */}
+
             <button
               onClick={handleLikePost}
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-full border transition-all ${
-                post.likes?.includes(currentUserId)
-                  ? 'bg-red-50 border-red-200 text-red-500 font-bold'
-                  : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-red-50 hover:border-red-100 hover:text-red-500'
-              }`}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-full border transition-all ${post.likes?.includes(currentUserId)
+                ? 'bg-red-50 border-red-200 text-red-500 font-bold'
+                : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-red-50 hover:border-red-100 hover:text-red-500'
+                }`}
             >
               <Heart className={`w-3.5 h-3.5 ${post.likes?.includes(currentUserId) ? 'fill-red-500 text-red-500' : ''}`} />
               <span>{post.likes?.length || 0} Likes</span>
             </button>
 
-            {/* Views counter for OP */}
             {currentUserId && post.author?._id === currentUserId && (
               <div className="flex items-center gap-1 text-slate-500 font-semibold px-2 py-1 bg-slate-50 border border-slate-200 rounded-full">
                 <Eye className="w-3.5 h-3.5" />
@@ -514,7 +502,6 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
               {post.body}
             </p>
 
-            {/* Media Rendering */}
             {post.imageUrl && (
               <div className="rounded-xl overflow-hidden max-h-[400px] border border-slate-200 bg-slate-50 flex items-center justify-center mt-4 p-1">
                 <img src={post.imageUrl} alt={post.title} className="max-h-[390px] object-contain w-full rounded-lg" />
@@ -530,7 +517,7 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
         </div>
       )}
 
-      {/* Write Root Comment */}
+
       <div className="glass-card rounded-2xl p-6 border-slate-200/90 bg-white">
         <h2 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
           <CornerDownRight className="w-4 h-4 text-orange-500" />
@@ -559,7 +546,7 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
         </form>
       </div>
 
-      {/* Recursive Comments Tree */}
+
       <div className="space-y-4 pt-4">
         <h3 className="text-lg font-bold text-slate-950 px-1">
           Discussion ({flatComments.length} comments)

@@ -46,10 +46,10 @@ export const CreditsPopup: React.FC<CreditsPopupProps> = ({ isOpen, onClose, tot
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
-      {/* Modal Card */}
+
       <div className="w-full max-w-2xl bg-white rounded-3xl border border-slate-200/90 shadow-2xl flex flex-col max-h-[85vh] overflow-hidden transform scale-100 transition-all duration-300">
-        
-        {/* Header */}
+
+
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600">
@@ -57,20 +57,20 @@ export const CreditsPopup: React.FC<CreditsPopupProps> = ({ isOpen, onClose, tot
             </div>
             <h3 className="font-extrabold text-slate-900 text-lg tracking-wide">Credit Engine Dashboard</h3>
           </div>
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-50 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Body (Scrollable) */}
+
         <div className="p-6 overflow-y-auto space-y-6 flex-1 text-slate-800">
-          
-          {/* Key Metrics Cards */}
+
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Total Balance */}
+
             <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border border-orange-100/70 flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white shadow-md shadow-orange-500/20">
                 <Trophy className="w-6 h-6" />
@@ -81,7 +81,7 @@ export const CreditsPopup: React.FC<CreditsPopupProps> = ({ isOpen, onClose, tot
               </div>
             </div>
 
-            {/* Last 10 Days */}
+
             <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-indigo-100/70 flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
                 <Calendar className="w-6 h-6" />
@@ -95,7 +95,7 @@ export const CreditsPopup: React.FC<CreditsPopupProps> = ({ isOpen, onClose, tot
             </div>
           </div>
 
-          {/* How It Works Section */}
+
           <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/60 space-y-3">
             <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
               <HelpCircle className="w-4 h-4 text-orange-500" />
@@ -110,7 +110,7 @@ export const CreditsPopup: React.FC<CreditsPopupProps> = ({ isOpen, onClose, tot
             </ul>
           </div>
 
-          {/* Credits Per Post List */}
+
           <div className="space-y-3">
             <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
               <FileText className="w-4 h-4 text-slate-600" />
@@ -146,7 +146,7 @@ export const CreditsPopup: React.FC<CreditsPopupProps> = ({ isOpen, onClose, tot
 
         </div>
 
-        {/* Footer */}
+
         <div className="px-6 py-4 border-t border-slate-100 flex justify-end bg-slate-50/50">
           <button
             onClick={onClose}
